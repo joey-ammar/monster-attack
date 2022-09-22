@@ -20,7 +20,7 @@
               </div>
               <progress id="playersHealth" max="100" value="100">100</progress>
               <button id="playerAttaking">ATTACK</button>
-              <button>Strong Attack</button>
+              <button id="playerStrongAttaking">Strong Attack</button>
               <button class="healPlayer">Heal</button>
           </div>
           <div class="monster">
@@ -29,12 +29,12 @@
               </div>
               <progress id="monstersHealth" max="100" value="100">100</progress>
               <button id="monsterAttacking">ATTACK</button>
-              <button>Strong Attack</button>
+              <button id="monsterStrongAttak">Strong Attack</button>
               <button class="healMonster">Heal</button>
           </div>
       </div>
     </main>
-    <script src="array.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
 
@@ -48,95 +48,9 @@
 
 
 
-/**
- * *********************
- * *********************
- * VARIABLES************
- * *********************
- * *********************
- */
-/*PLAYER VARIABLES*/
-const playerAttaking = document.querySelector('#playerAttaking');
-let playersHealth = document.querySelector('#playersHealth');
-
-/*MONSTER VARIABLES*/
-const monsterAttacking = document.querySelector('#monsterAttacking');
-let monstersHealth = document.querySelector('#monstersHealth');
-
-/* ball */
-const ballPlayer = document.querySelector(".ball-player span");
-const ballMonster = document.querySelector(".ball-monster span");
-
-/* Heal */
-const healPlayer = document.querySelector(".healPlayer");
-const healMonster = document.querySelector(".healMonster");
-
-
-/* SETTING THE BTN TO DISABLE AS THE GAME BEGIN */
-monsterAttacking.setAttribute("disabled", "");
-ballPlayer.style.display = "flex";
-ballMonster.style.display = "none"
-
-/* RANDOM NUMBER ATTACK */
-const randomNumberAttack = () => {
-  return Math.floor(Math.random() * (15 - 0 + 1)) + 0;
-}
-/* RANDOM STRONG ATTACK */
-const randomStrongAttack = () => {
-  return Math.floor(Math.random() * (30 - 15) + 15);
-}
-/* RANDOM HEAL HEALTH*/
-const randomHealHealth = () => {
-  return Math.floor(Math.random() * (50 - 30) + 30);
-}
 
 
 
-/*WHEN PLAYER ATTACKS*/
-playerAttaking.addEventListener('click', () => {
-  /*Reducing the value*/
-  monstersHealth.value = monstersHealth.value - randomNumberAttack();
-  playerAttaking.setAttribute("disabled", "");
-  monsterAttacking.removeAttribute("disabled", "");
-  ballPlayer.style.display = "none";
-  ballMonster.style.display = "flex"
-
-  /*Condition to win*/
-  if(monstersHealth.value === 0) {
-    alert("PLAYER WINS");
-  }
-})
-
-
-/* WHEN MONSTER ATTACKS */
-monsterAttacking.addEventListener('click', () => {
-  /*Reducing the value*/
-  playersHealth.value = playersHealth.value - randomNumberAttack();
-  monsterAttacking.setAttribute("disabled", "");
-  playerAttaking.removeAttribute("disabled", "");
-  ballPlayer.style.display = "flex";
-  ballMonster.style.display = "none"
-  /*Condition to win*/
-  if(playersHealth.value === 0) {
-    alert("Monster WINS");
-  }
-
-})
-
-
-/* WHEN PLAYER HEALS */
-healPlayer.addEventListener("click", () => {
-  console.log("PLAYER IS HEALING!!")
-})
-
-/* WHEN MONSTER HEALS */
-healMonster.addEventListener("click", () => {
-  console.log("MONSTER IS HEALING!!")
-})
-console.log(healPlayer, healMonster)
-
-
-//CONCLUSTION
 
 
 
@@ -277,3 +191,133 @@ span {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * *********************
+ * *********************
+ * VARIABLES************
+ * *********************
+ * *********************
+ */
+/*PLAYER VARIABLES*/
+const playerAttaking = document.querySelector('#playerAttaking');
+let playersHealth = document.querySelector('#playersHealth');
+
+/*MONSTER VARIABLES*/
+const monsterAttacking = document.querySelector('#monsterAttacking');
+let monstersHealth = document.querySelector('#monstersHealth');
+
+/* ball */
+const ballPlayer = document.querySelector(".ball-player span");
+const ballMonster = document.querySelector(".ball-monster span");
+
+/* Heal */
+const healPlayer = document.querySelector(".healPlayer");
+const healMonster = document.querySelector(".healMonster");
+
+/*Strong Attack */
+const strongAttackPlayer = document.querySelector("#playerStrongAttaking");
+const monsterStrongAttak = document.querySelector("#monsterStrongAttak");
+
+/* RANDOM NUMBER ATTACK */
+const randomNumberAttack = () => {
+    return Math.floor(Math.random() * (15 - 0 + 1)) + 0;
+  }
+  /* RANDOM STRONG ATTACK */
+  const randomStrongAttack = () => {
+    return Math.floor(Math.random() * (30 - 15) + 15);
+  }
+  /* RANDOM HEAL HEALTH*/
+  const randomHealHealth = () => {
+    return Math.floor(Math.random() * (50 - 30) + 30);
+  }
+  
+  const monsterStyles = (color) => {
+    monsterAttacking.style.backgroundColor = color;
+    healMonster.style.backgroundColor = color;
+    monsterStrongAttak.style.backgroundColor = color;
+    return
+  } 
+  
+  const playerStyles = (color) => {
+    playerAttaking.style.backgroundColor = color;
+    healPlayer.style.backgroundColor = color;
+    strongAttackPlayer.style.backgroundColor = color;
+    return
+  }
+
+  const showBall = (toggleBallOne, toggleBallTwo) => {
+    ballPlayer.style.display = toggleBallOne;
+    ballMonster.style.display = toggleBallTwo;
+ }
+
+/* SETTING THE BTN TO DISABLE AS THE GAME BEGIN */
+monsterAttacking.setAttribute("disabled", "");
+showBall('flex', 'none');
+monsterStyles('gray');
+
+/*WHEN PLAYER ATTACKS*/
+playerAttaking.addEventListener('click', () => {
+  /*Reducing the value*/
+  monstersHealth.value = monstersHealth.value - randomNumberAttack();
+  playerAttaking.setAttribute("disabled", "");
+  monsterAttacking.removeAttribute("disabled", "");
+  showBall('none', 'flex');
+  monsterStyles('beige');
+  playerStyles('gray');
+
+  /*Condition to win*/
+  if(monstersHealth.value === 0) {
+    alert("PLAYER WINS");
+  }
+})
+
+
+/* WHEN MONSTER ATTACKS */
+monsterAttacking.addEventListener('click', () => {
+  /*Reducing the value*/
+  playersHealth.value = playersHealth.value - randomNumberAttack();
+  monsterAttacking.setAttribute("disabled", "");
+  playerAttaking.removeAttribute("disabled", "");
+  showBall('flex', 'none');
+  monsterStyles('gray');
+  playerStyles('beige');
+  /*Condition to win*/
+  if(playersHealth.value === 0) {
+    alert("Monster WINS");
+  }
+
+})
+
+/* WHEN PLAYER HEALS */
+healPlayer.addEventListener("click", () => {
+    playersHealth.value = playersHealth.value + randomHealHealth();
+    playerAttaking.setAttribute("disabled", "");
+    monsterAttacking.removeAttribute("disabled", "");
+    healPlayer.setAttribute("disabled", "");
+    showBall('none', 'flex');
+})
+
+/* WHEN MONSTER HEALS */
+healMonster.addEventListener("click", () => {
+    monstersHealth.value = monstersHealth.value + randomHealHealth();
+    monsterAttacking.setAttribute("disabled", "");
+    playerAttaking.removeAttribute("disabled", "");
+    showBall('flex', 'none');
+})
+
+
+
+//CONCLUSTION
